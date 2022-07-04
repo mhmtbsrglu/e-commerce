@@ -2,13 +2,13 @@ package com.trenddolabim.backendservices.product.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.trenddolabim.backendservices.product.domain.elasticsearch.CategoryEs;
 import com.trenddolabim.backendservices.product.domain.elasticsearch.ProductEs;
 import com.trenddolabim.backendservices.product.model.ProductResponse;
-import com.trenddolabim.backendservices.product.model.ProductSaveRequest;
 import com.trenddolabim.backendservices.product.model.ProductSellerResponse;
 import com.trenddolabim.backendservices.product.repository.ProductRepository;
 import com.trenddolabim.backendservices.product.repository.elasticsearach.ProductEsRepository;
@@ -20,9 +20,10 @@ import reactor.core.publisher.Flux;
 @RequiredArgsConstructor
 public class ProductService {
 
+    @Autowired
     private final ProductEsRepository productEsRepository;
     private final ProductRepository productRepo;
-    private final ProductPriceService productPriceService;
+    private final ProductDeliveryService productDeliveryService;
     
     public Flux<ProductResponse> getAll(){
         //1- Elastic search sorgula
@@ -48,6 +49,9 @@ public class ProductService {
          .productPrice(productEs.getProductPrice())
          .color(productEs.getColor())
         .productPrice(productEs.getProductPrice())
+        .quantity(productEs.getQuantity())
+        .deliveryIn(productDeliveryService.getDeliveryInfo(productEs.getId()))
+        .freeDelivery(productDeliveryService.freeDeliveryCheck(productEs.getId(), productEs.getProductPrice()))
         .build();
         
     }
@@ -55,13 +59,13 @@ public class ProductService {
 
 
      
-    ProductResponse save(ProductSaveRequest psr){
-        //1- Mongo DB yaz
-        // 2 - Elastic searchten güncelle
-        // Redisten güncelle varsa güncelle
-        // 3 - Elastic searchten cevap dön
-        // 4 - Response nesnesine dönüştür
+    // ProductResponse save(ProductSaveRequest psr){
+    //     //1- Mongo DB yaz
+    //     // 2 - Elastic searchten güncelle
+    //     // Redisten güncelle varsa güncelle
+    //     // 3 - Elastic searchten cevap dön
+    //     // 4 - Response nesnesine dönüştür
 
-        return null;
-    }
+    //     return null;
+    // }
 }

@@ -10,8 +10,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Data
 public class ProductResponse {
@@ -25,5 +23,8 @@ public class ProductResponse {
     private String description;
     private BigDecimal productPrice;
     private String color;
+    private String deliveryIn;
+    private int quantity;
+    private Boolean freeDelivery;
 
 }

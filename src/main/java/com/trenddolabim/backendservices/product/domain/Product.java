@@ -21,7 +21,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Document(collation = "Urun")
+@Document(collation = "product")
 @EqualsAndHashCode(of = "id")
 public class Product {
     
@@ -36,6 +36,7 @@ public class Product {
     private BigDecimal productPrice;
     private String color;
     private Date deliveryDate;
+    private int quantity;
 
 
 }
