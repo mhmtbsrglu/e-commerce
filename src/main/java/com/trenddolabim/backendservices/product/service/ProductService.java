@@ -5,12 +5,16 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.trenddolabim.backendservices.product.domain.elasticsearch.CategoryEs;
+import com.trenddolabim.backendservices.product.domain.elasticsearch.ProductEs;
 import com.trenddolabim.backendservices.product.model.ProductResponse;
 import com.trenddolabim.backendservices.product.model.ProductSaveRequest;
+import com.trenddolabim.backendservices.product.model.ProductSellerResponse;
 import com.trenddolabim.backendservices.product.repository.ProductRepository;
 import com.trenddolabim.backendservices.product.repository.elasticsearach.ProductEsRepository;
 
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 
 @Service
 @RequiredArgsConstructor
@@ -18,15 +22,37 @@ public class ProductService {
 
     private final ProductEsRepository productEsRepository;
     private final ProductRepository productRepo;
+    private final ProductPriceService productPriceService;
     
-    List<ProductResponse> getByPaging(Pageable pageable){
+    public Flux<ProductResponse> getAll(){
         //1- Elastic search sorgula
         // 2 - Calc fieldları işle
         // redisten ihtiyaç alanlarını getir
         // 3 - Response nesnesine dönüştür
-
-        return null;
+        return productEsRepository.findAll().map(this::mapToDto);
     }
+
+    private ProductResponse mapToDto(ProductEs productEs){
+        
+        CategoryEs kategori_id = productEs.getCategory();
+
+        return ProductResponse.builder()
+        .id(productEs.getId())
+        .categoryId(kategori_id.getId())
+         .seller(ProductSellerResponse.builder().id(productEs.getSeller().getId()).name(productEs.getSeller().getName()).build())
+         .productName(productEs.getProductName())
+         .productCode(productEs.getProductCode())
+         .productImage(productEs.getProductImages().get(0))
+         .isActive(productEs.getIsActive())
+         .description(productEs.getDescription())
+         .productPrice(productEs.getProductPrice())
+         .color(productEs.getColor())
+        .productPrice(productEs.getProductPrice())
+        .build();
+        
+    }
+
+
 
      
     ProductResponse save(ProductSaveRequest psr){

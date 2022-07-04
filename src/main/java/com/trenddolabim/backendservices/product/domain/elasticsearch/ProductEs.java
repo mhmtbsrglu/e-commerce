@@ -1,8 +1,11 @@
 package com.trenddolabim.backendservices.product.domain.elasticsearch;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import com.trenddolabim.backendservices.product.domain.ProductPrice;
+
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,10 +22,10 @@ public class ProductEs {
     private SellerEs seller;
     private String productName;
     private String productCode;
-    private String productImage;
+    private List<String> productImages;
     private Boolean isActive;
     private String description;
-    private ProductPrice productPrice;
+    private BigDecimal productPrice;
     private String color;
 
 }
