@@ -1,6 +1,8 @@
 package com.trenddolabim.backendservices.product.domain;
 
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -31,8 +33,9 @@ public class Product {
     private List<ProductImage> productImage;
     private Boolean isActive;
     private String description;
-    private ProductPrice productPrice;
+    private BigDecimal productPrice;
     private String color;
+    private Date deliveryDate;
 
 
 }
